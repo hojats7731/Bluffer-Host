@@ -22,7 +22,8 @@ cd ../Bluffer && docker compose up
 1. Enter server URL: `ws://127.0.0.1:3000/ws`
 2. Click **ساخت اتاق جدید** (Create room)
 3. Share the 4-letter room code with players
-4. When 2+ players join, click **شروع بازی**
+4. Share the **join URL** or **QR code** on the lobby screen
+5. When 2+ players join, click **شروع بازی**
 
 ## Project structure
 
@@ -48,7 +49,11 @@ Server URL and reconnect tokens are saved to `user://host_config.cfg`.
 |------|------|
 | [Bluffer](https://github.com/hojats7731/Bluffer) | Game server |
 | **Bluffer-Host** (this) | Godot TV host |
-| Bluffer-Web | Mobile player controllers (coming soon) |
+| [Bluffer-Web](https://github.com/hojats7731/Bluffer-Web) | Mobile player controllers |
+
+Full-stack local setup: [LOCAL_DEV.md](https://github.com/hojats7731/Bluffer/blob/main/docs/LOCAL_DEV.md) (server repo).
+
+Phase 3 roadmap: [docs/PHASE3_PLAN.md](docs/PHASE3_PLAN.md).
 
 ## License
 
