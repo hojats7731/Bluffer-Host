@@ -55,6 +55,10 @@ Full-stack local setup: [LOCAL_DEV.md](https://github.com/hojats7731/Bluffer/blo
 
 Phase 3 roadmap: [docs/PHASE3_PLAN.md](docs/PHASE3_PLAN.md).
 
+## Audio (optional)
+
+Drop royalty-free OGG files into `assets/audio/` — see [assets/audio/README.md](assets/audio/README.md). Background music loops in lobby/game; reveal and join sounds play automatically when files exist.
+
 ## License
 
 MIT

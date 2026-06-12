@@ -23,6 +23,10 @@ var vote_total: int = 0
 
 var prompt_text: String = ""
 var prompt_id: String = ""
+var round_kind: String = "classic"
+var subject_player_id: String = ""
+var subject_name: String = ""
+var reveal_round_kind: String = "classic"
 var vote_options: Array = []
 var reveal_truth: String = ""
 var reveal_entries: Array = []
@@ -59,6 +63,10 @@ func _clear_round_data() -> void:
 	vote_total = 0
 	prompt_text = ""
 	prompt_id = ""
+	round_kind = "classic"
+	subject_player_id = ""
+	subject_name = ""
+	reveal_round_kind = "classic"
 	vote_options = []
 	reveal_truth = ""
 	reveal_entries = []
@@ -114,6 +122,9 @@ func apply_round_prompt(payload: Dictionary) -> void:
 	round = int(payload.get("round", round))
 	prompt_id = str(payload.get("promptId", ""))
 	prompt_text = str(payload.get("text", ""))
+	round_kind = str(payload.get("roundKind", "classic"))
+	subject_player_id = str(payload.get("subjectPlayerId", ""))
+	subject_name = str(payload.get("subjectName", ""))
 	var deadline := str(payload.get("submitDeadline", ""))
 	phase_deadline_unix = _parse_iso_deadline(deadline)
 	_set_screen(Screen.GAME)
@@ -126,6 +137,7 @@ func apply_vote_options(payload: Dictionary) -> void:
 func apply_round_reveal(payload: Dictionary) -> void:
 	reveal_truth = str(payload.get("truth", ""))
 	reveal_entries = payload.get("entries", [])
+	reveal_round_kind = str(payload.get("roundKind", round_kind))
 	state_updated.emit()
 
 func apply_round_scores(payload: Dictionary) -> void:
@@ -160,7 +172,8 @@ func phase_label() -> String:
 	match phase:
 		"lobby": return "لابی"
 		"prompt": return "سؤال"
-		"submit": return "در حال نوشتن دروغ"
+		"submit":
+			return "دربارهٔ شما" if round_kind == "about" else "در حال نوشتن دروغ"
 		"vote": return "رأی‌گیری"
 		"reveal": return "افشاگری"
 		"score": return "امتیازها"

@@ -13,6 +13,8 @@ extends Control
 
 const PLAYER_ROW := preload("res://scenes/components/player_row.tscn")
 
+var _last_player_count := 0
+
 func _ready() -> void:
 	GameState.state_updated.connect(refresh)
 	NetworkManager.connected_changed.connect(_on_connection_changed)
@@ -33,6 +35,14 @@ func refresh() -> void:
 	_load_qr(join_url)
 	_host_status.text = "وضعیت میزبان: " + ("متصل" if GameState.host_connected else "قطع (۶۰ ثانیه مهلت)")
 	_start_btn.disabled = not GameState.can_start_game()
+	_start_btn.text = "شروع بازی (حداقل ۲ نفر — %s نفر حاضر)" % LocaleUtils.to_persian_digits(
+		GameState.connected_player_count()
+	)
+
+	var player_count := GameState.connected_player_count()
+	if player_count > _last_player_count:
+		AudioManager.play_join()
+	_last_player_count = player_count
 
 	for child in _player_list.get_children():
 		child.queue_free()
