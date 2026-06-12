@@ -6,6 +6,7 @@ extends Control
 @onready var _qr_texture: TextureRect = %QrTexture
 @onready var _player_list: VBoxContainer = %PlayerList
 @onready var _start_btn: Button = %StartButton
+@onready var _rounds_option: OptionButton = %RoundsOption
 @onready var _host_status: Label = %HostStatus
 @onready var _error_label: Label = %ErrorLabel
 @onready var _http: HTTPRequest = %QrRequest
@@ -17,6 +18,10 @@ func _ready() -> void:
 	NetworkManager.connected_changed.connect(_on_connection_changed)
 	NetworkManager.error_received.connect(_on_error)
 	_http.request_completed.connect(_on_qr_loaded)
+	_rounds_option.add_item("۳ دور", 3)
+	_rounds_option.add_item("۵ دور", 5)
+	_rounds_option.add_item("۷ دور", 7)
+	_rounds_option.select(0)
 	_start_btn.pressed.connect(_on_start_pressed)
 	refresh()
 
@@ -77,7 +82,8 @@ func _on_qr_loaded(result: int, response_code: int, _headers: PackedStringArray,
 
 func _on_start_pressed() -> void:
 	_start_btn.disabled = true
-	NetworkManager.start_game(3)
+	var rounds := _rounds_option.get_item_id(_rounds_option.selected)
+	NetworkManager.start_game(rounds)
 
 func _on_kick_requested(player_id: String) -> void:
 	NetworkManager.kick_player(player_id)

@@ -1,0 +1,19 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  godot:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: nicedoc/godot-ci@v2.1.2
+        with:
+          godot_version: 4.6.1-stable
+      - name: Import project
+        run: godot --headless --import --path .
+      - name: Validate scripts compile
+        run: godot --headless --path . --quit-after 1
